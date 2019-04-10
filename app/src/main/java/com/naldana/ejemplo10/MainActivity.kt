@@ -11,6 +11,10 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import org.json.JSONObject
+import java.net.URL
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,11 +60,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             twoPane =  true
         }
 
+        doAsync {
+            for(i in 1..100){
+                val result = URL("https://apicoin.herokuapp.com/coin/").readText()
+                val coins = JSONObject(result)
+                var arraypost = Coins(coins["name"].toString(), coins["country"].toString(), coins["values"].toString(), coins["values_us"].toString(),
+                    coins["year"].toString(), coins["review"].toString(), coins["isAvailable"].toString(), coins["img"].toString())
+                mCoinsList.add(arraypost)
+            }
 
-        /*
-         * TODO (Instrucciones)Luego de leer todos los comentarios añada la implementación de RecyclerViewAdapter
-         * Y la obtencion de datos para el API de Monedas
-         */
+            uiThread {
+                setupRecyclerView(item_list)
+            }
+        }
+
+
     }
 
 

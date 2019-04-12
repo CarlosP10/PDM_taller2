@@ -9,7 +9,7 @@ import java.util.*
 
 class NetworkUtils {
 
-    val COINS_API_URL = ""
+    val COINS_API_URL = "https://apicoin.herokuapp.com/coin"
 
     fun buildSearchUri(coins: String) : URL {
         val buildUri = Uri.parse(COINS_API_URL)

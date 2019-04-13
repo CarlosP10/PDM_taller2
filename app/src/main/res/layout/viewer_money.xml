@@ -1,47 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- TODO (4) Contenedor de Top-Level. Permite definir como interactuan los elementos hijos entre si -->
 <!-- TODO (4.1) Se puede definir que un elemento tenga scroll relativo a otro -->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
-
-    <!-- TODO (5) Es un LinearLayout que implementa muchos conceptos Material Design -->
-    <!-- TODO (5.1) Muchos efectos y personalización no funcionara si no se usa este contenedor -->
-    <!-- TODO (5.2) El comportamiento de scroll debe definirse explisitamente -->
-    <!-- TODO (5.2.1) En este caso no esta definido. La barra se mantedra en su lugar -->
-    <android.support.design.widget.AppBarLayout
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        tools:context=".activities.MoneyViewerActivity">
 
-
-        <!-- TODO (6) Toolbar perminte pesonalizar la action bar -->
-        <!-- TODO (6.1) El ancho es match_parent para que se adapte a cualquier pantalla -->
-        <!-- TODO (6.2) El alto es obtenido del alto del toolbar definido por el sistema -->
-        <!-- TODO (6.3) El color de fonodo definido por el sistema -->
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarviewer"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="256dp"
+            android:fitsSystemWindows="true">
 
+        <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingtoolbarviewer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
+                app:contentScrim="?attr/colorPrimaryDark"
+                app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+                app:title="@string/n_a_value"
+                app:toolbarId="@id/toolbarviewer">
+
+            <ImageView
+                    android:id="@+id/app_bar_image_viewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbarviewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize" />
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <!-- TODO (7) Este es realmente el contenido de la actividad. Todo lo demás es para personalizar -->
-    <include layout="@layout/content_main" />
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <!-- TODO (8) Boton flotante para acciones principales -->
-    <!-- TODO (8.1) Notar que se define su posicion con el atributo gravedad -->
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            <TextView
+                    android:id="@+id/plot_viewer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/n_a_value"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/genre_viewer" android:layout_marginTop="16dp"
+                    android:justificationMode="inter_word"/>
+
+            <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Country:"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/plot_viewer" />
+
+            <TextView
+                    android:id="@+id/country_viewer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:text="@string/n_a_value"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toTopOf="@+id/textView"/>
+
+            <TextView
+                    android:id="@+id/TextView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Year:"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                    android:id="@+id/year_viewer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:text="@string/n_a_value"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TextView4"
+                    app:layout_constraintTop_toTopOf="@+id/TextView4"/>
+            <TextView
+                    android:text="@string/n_a_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/genre_viewer" android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+                    android:fontFamily="@font/roboto_light"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -19,7 +19,7 @@
             />
 
         <TextView
-            android:id="@+id/movie_title_main_content_fragment"
+            android:id="@+id/coin_title_main_content_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/image_main_content_fragment"
@@ -37,25 +37,6 @@
             android:textColor="#fff"
             android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/movie_rate_main_content_fragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/image_main_content_fragment"
-            android:layout_alignLeft="@id/image_main_content_fragment"
-            android:layout_alignTop="@id/image_main_content_fragment"
-
-            android:layout_margin="16dp"
-            android:background="#65000000"
-
-            android:gravity="end"
-            android:padding="8dp"
-
-            android:text="@string/rate_ex_string"
-            android:textColor="#fff"
-
-            android:textSize="25sp" />
-
     </RelativeLayout>
 
     <ScrollView
@@ -70,7 +51,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/plot_main_content_fragment"
+                android:id="@+id/review_main_content_fragment"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,13 +78,13 @@
                     android:paddingRight="8dp"
                     android:layout_marginBottom="4dp"
 
-                    android:text="Año:"
+                    android:text="Country:"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     />
 
                 <TextView
-                    android:id="@+id/released_main_content_fragment"
+                    android:id="@+id/country_main_content_fragment"
 
                     android:layout_width="0dp"
                     android:layout_weight="3"
@@ -133,13 +114,13 @@
                     android:paddingRight="8dp"
                     android:layout_marginBottom="4dp"
 
-                    android:text="Genero:"
+                    android:text="Value:"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     />
 
                 <TextView
-                    android:id="@+id/genre_main_content_fragment"
+                    android:id="@+id/value_main_content_fragment"
 
                     android:layout_width="0dp"
                     android:layout_weight="3"
@@ -169,13 +150,13 @@
                     android:paddingRight="8dp"
                     android:layout_marginBottom="4dp"
 
-                    android:text="Duración:"
+                    android:text="Value US:"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     />
 
                 <TextView
-                    android:id="@+id/runtime_main_content_fragment"
+                    android:id="@+id/value_us_main_content_fragment"
 
                     android:layout_width="0dp"
                     android:layout_weight="3"
@@ -205,13 +186,13 @@
                     android:paddingRight="8dp"
                     android:layout_marginBottom="4dp"
 
-                    android:text="Director:"
+                    android:text="Year:"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     />
 
                 <TextView
-                    android:id="@+id/director_main_content_fragment"
+                    android:id="@+id/year_main_content_fragment"
 
                     android:layout_width="0dp"
                     android:layout_weight="3"
@@ -227,38 +208,38 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                >
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+            >
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:layout_marginBottom="4dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:layout_marginBottom="4dp"
 
-                    android:text="Actores:"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    />
+                        android:text="Available:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                />
 
                 <TextView
-                    android:id="@+id/actors_main_content_fragment"
+                        android:id="@+id/is_available_main_content_fragment"
 
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:layout_marginBottom="4dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:layout_marginBottom="4dp"
 
-                    android:text="@string/n_a_value"
-                    android:textSize="18sp"
-                    />
+                        android:text="@string/n_a_value"
+                        android:textSize="18sp"
+                />
 
             </LinearLayout>
 

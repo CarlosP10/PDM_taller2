@@ -4,33 +4,33 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.deushdezt.laboratorio4.MyMovieAdapter
-import com.deushdezt.laboratorio4.R
-import com.deushdezt.laboratorio4.pojos.Movie
-import kotlinx.android.synthetic.main.list_item_movie.view.*
+import com.naldana.ejemplo10.MyMoneyAdapter
+import com.naldana.ejemplo10.R
+import com.naldana.ejemplo10.models.Coins
+import kotlinx.android.synthetic.main.list_item_money.view.*
 
-class MoneySimpleListAdapter(var movies:List<Movie>, val clickListener: (Movie) -> Unit): RecyclerView.Adapter<MoneySimpleListAdapter.ViewHolder>(), MyMovieAdapter{
+class MoneySimpleListAdapter(var coins:List<Coins>, val clickListener: (Coins) -> Unit): RecyclerView.Adapter<MoneySimpleListAdapter.ViewHolder>(), MyMoneyAdapter{
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_movie, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_money, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = coins.size
 
-    override fun onBindViewHolder(holder: ViewHolder, pos: Int) =holder.bind(movies[pos], clickListener)
+    override fun onBindViewHolder(holder: ViewHolder, pos: Int) =holder.bind(coins[pos], clickListener)
 
-    override fun changeDataSet(newDataSet: List<Movie>) {
-        this.movies = newDataSet
+    override fun changeDataSet(newDataSet: List<Coins>) {
+        this.coins = newDataSet
         notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movie, clickListener: (Movie) -> Unit) = with(itemView){
-            title_list_item.text = movie.Title
-            genre_list_item.text = movie.Genre
-            runtime_list_item.text = movie.Runtime
-            this.setOnClickListener { clickListener(movie) }
+        fun bind(coin: Coins, clickListener: (Coins) -> Unit) = with(itemView){
+            name_list_item.text = coin.name
+            country_list_item.text = coin.country
+            year_list_item.text = coin.year.toString()
+            this.setOnClickListener { clickListener(coin) }
         }
     }
 }

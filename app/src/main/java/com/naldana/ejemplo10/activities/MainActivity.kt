@@ -1,75 +1,121 @@
-package com.naldana.ejemplo10
+package com.naldana.ejemplo10.activities
 
+import android.content.Intent
+import android.content.res.Configuration
+import android.os.AsyncTask
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.naldana.ejemplo10.adapters.MoneyAdapter
+import android.widget.Toast
+import com.google.gson.Gson
+import com.naldana.ejemplo10.AppConstants
+import com.naldana.ejemplo10.Network.NetworkUtils
+import com.naldana.ejemplo10.R
+import com.naldana.ejemplo10.fragments.MainContentFragment
+import com.naldana.ejemplo10.fragments.MainListFragment
+import com.naldana.ejemplo10.models.Coins
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import org.json.JSONObject
+import java.io.IOException
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    var twoPane =  false
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainListFragment.SearchNewMovieListener {
+    private lateinit var mainFragment : MainListFragment
+    private lateinit var mainContentFragment: MainContentFragment
+    private var moneyList = ArrayList<Coins>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        // TODO (9) Se asigna a la actividad la barra personalizada
-        setSupportActionBar(toolbar)
+        setContentView(R.layout.money_list_fragment)
+        moneyList = savedInstanceState?.getParcelableArrayList(AppConstants.dataset_saveinstance_key) ?: ArrayList()
 
-
-        // TODO (10) Click Listener para el boton flotante
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-
-        // TODO (11) Permite administrar el DrawerLayout y el ActionBar
-        // TODO (11.1) Implementa las caracteristicas recomendas
-        // TODO (11.2) Un DrawerLayout (drawer_layout)
-        // TODO (11.3) Un lugar donde dibujar el indicador de apertura (la toolbar)
-        // TODO (11.4) Una String que describe el estado de apertura
-        // TODO (11.5) Una String que describe el estado cierre
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-
-        // TODO (12) Con el Listener Creado se asigna al  DrawerLayout
-        drawer_layout.addDrawerListener(toggle)
-
-
-        // TODO(13) Se sincroniza el estado del menu con el LISTENER
-        toggle.syncState()
-
-        // TODO (14) Se configura el listener del menu que aparece en la barra lateral
-        // TODO (14.1) Es necesario implementar la inteface {{@NavigationView.OnNavigationItemSelectedListener}}
-        nav_view.setNavigationItemSelectedListener(this)
-
-        // TODO (20) Para saber si estamos en modo dos paneles
-        if (fragment_content != null ){
-            twoPane =  true
-        }
-
-
-        /*
-         * TODO (Instrucciones)Luego de leer todos los comentarios añada la implementación de RecyclerViewAdapter
-         * Y la obtencion de datos para el API de Monedas
-         */
-
-        recyclerview.adapter = MoneyAdapter(this, list, twoPane)
+        initMainFragment()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelableArrayList(AppConstants.dataset_saveinstance_key, moneyList)
+        super.onSaveInstanceState(outState)
+    }
 
-    // TODO (16) Para poder tener un comportamiento Predecible
-    // TODO (16.1) Cuando se presione el boton back y el menu este abierto cerralo
-    // TODO (16.2) De lo contrario hacer la accion predeterminada
+    fun initMainFragment(){
+        mainFragment = MainListFragment.newInstance(moneyList)
+
+        val resource = if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+            R.id.main_fragment
+        else {
+            mainContentFragment = MainContentFragment.newInstance(Coins())
+            changeFragment(R.id.land_main_cont_fragment, mainContentFragment)
+
+            R.id.land_main_fragment
+        }
+
+        changeFragment(resource, mainFragment)
+    }
+
+    fun addMovieToList(movie: Coins) {
+        moneyList.add(movie)
+        mainFragment.updateMoviesAdapter(moneyList)
+        Log.d("Number", moneyList.size.toString())
+    }
+
+    override fun searchMovie(movieName: String) {
+        FetchMovie().execute(movieName)
+    }
+
+    override fun managePortraitItemClick(movie: Coins) {
+        val movieBundle = Bundle()
+        movieBundle.putParcelable("MOVIE", movie)
+        startActivity(Intent(this, MoneyViewerActivity::class.java).putExtras(movieBundle))
+    }
+
+    private fun changeFragment(id: Int, frag: Fragment){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(id, frag)
+            .commit() }
+
+    override fun manageLandscapeItemClick(movie: Coins) {
+        mainContentFragment = MainContentFragment.newInstance(movie)
+        changeFragment(R.id.land_main_cont_fragment, mainContentFragment)
+    }
+
+    private inner class FetchMovie : AsyncTask<String, Void, String>() {
+
+        override fun doInBackground(vararg params: String): String {
+
+            if (params.isNullOrEmpty()) return ""
+
+            val movieName = params[0]
+            val movieUrl = NetworkUtils().buildtSearchUrl(movieName)
+
+            return try {
+                NetworkUtils().getResponseFromHttpUrl(movieUrl)
+            } catch (e: IOException) {
+                ""
+            }
+        }
+
+        override fun onPostExecute(movieInfo: String) {
+            super.onPostExecute(movieInfo)
+            if (!movieInfo.isEmpty()) {
+                val movieJson = JSONObject(movieInfo)
+                if (movieJson.getString("Response") == "True") {
+                    val movie = Gson().fromJson<Coins>(movieInfo, Coins::class.java)
+                    addMovieToList(movie)
+                } else {
+                    Toast.makeText(this@MainActivity, "No existe en la base de datos,", Toast.LENGTH_LONG).show()
+                }
+            }else
+            {
+                Toast.makeText(this@MainActivity, "A ocurrido un error,", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -78,14 +124,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    // TODO (17) LLena el menu que esta en la barra. El de tres puntos a la derecha
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
-    // TODO (18) Atiende el click del menu de la barra
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -96,7 +140,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    // TODO (14.2) Funcion que recibe el ID del elemento tocado
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {

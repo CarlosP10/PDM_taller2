@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO (7.1) Defenicion del contenido principal de la actividad -->
+<!-- TODO (7.2)  layout_behavior Define que el contenido tenga scroll con respecto a la barra-->
+<FrameLayout
+        android:id="@+id/main_fragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MainActivity"/>

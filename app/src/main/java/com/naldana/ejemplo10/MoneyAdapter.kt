@@ -33,7 +33,7 @@ class MoneyAdapter(
                         putString(ItemDetailFragment.ARG_ITEM_ID, item.value.toString())
                         putString(ItemDetailFragment.ARG_ITEM_ID, item.value_us.toString())
                         putString(ItemDetailFragment.ARG_ITEM_ID, item.year.toString())
-                        putString(ItemDetailFragment.ARG_ITEM_ID, item.review.toString())
+                        putString(ItemDetailFragment.ARG_ITEM_ID, item.review)
                         putString(ItemDetailFragment.ARG_ITEM_ID, item.isAvailable.toString())
                         putString(ItemDetailFragment.ARG_ITEM_ID, item.img)
                     }

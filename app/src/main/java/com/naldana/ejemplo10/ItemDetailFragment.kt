@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.naldana.ejemplo10.models.Coins
+import kotlinx.android.synthetic.main.item_detail.*
 
-
-import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 /**

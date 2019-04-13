@@ -3,11 +3,11 @@ package com.naldana.ejemplo10.models
 data class Coins(
     val name: String,
     val country: String,
-    val value: Number,
-    val value_us: Number,
-    val year: Number,
+    val value: String,
+    val value_us: String,
+    val year: String,
     val review: String,
-    val isAvailable: Boolean,
+    val isAvailable: String,
     val img: String
 
 )

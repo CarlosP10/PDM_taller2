@@ -1,4 +1,4 @@
-package com.naldana.ejemplo10
+package com.naldana.ejemplo10.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.naldana.ejemplo10.R
 import com.naldana.ejemplo10.models.Coins
-
-
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <!-- TODO (5) Es un LinearLayout que implementa muchos conceptos Material Design -->
     <!-- TODO (5.1) Muchos efectos y personalización no funcionara si no se usa este contenedor -->

@@ -36,7 +36,7 @@ class MainContentFragment: Fragment() {
         view.value_main_content_fragment.text = coin.value.toString()
         view.value_us_main_content_fragment.text = coin.value_us.toString()
         view.year_main_content_fragment.text = coin.year.toString()
-        view.is_available_main_content_fragment.text = coin.isAvailable
+        view.is_available_main_content_fragment.text = coin.isAvailable.toString()
         Glide.with(view).load(coin.img)
             .placeholder(R.drawable.ic_launcher_background)
             .into(view.image_main_content_fragment)

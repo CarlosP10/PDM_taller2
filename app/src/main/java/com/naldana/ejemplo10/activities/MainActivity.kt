@@ -8,6 +8,9 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -16,9 +19,11 @@ import com.google.gson.Gson
 import com.naldana.ejemplo10.AppConstants
 import com.naldana.ejemplo10.Network.NetworkUtils
 import com.naldana.ejemplo10.R
+import com.naldana.ejemplo10.adapters.MoneyAdapter
 import com.naldana.ejemplo10.fragments.MainContentFragment
 import com.naldana.ejemplo10.fragments.MainListFragment
 import com.naldana.ejemplo10.models.Coins
+import com.naldana.ejemplo10.models.infoAllCoin
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import java.io.IOException
@@ -40,6 +45,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         outState.putParcelableArrayList(AppConstants.dataset_saveinstance_key, moneyList)
         super.onSaveInstanceState(outState)
     }
+
+    /*private fun coinItemClicked(item: Coins) {
+        val coinBundle = Bundle()
+        coinBundle.putParcelable("COIN", item)
+        startActivity(Intent(this, MoneyViewerActivity::class.java).putExtras(coinBundle))
+    }
+
+    private lateinit var viewAdapter: MoneyAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
+    fun initRecycler(coins : ArrayList<Coins>) {
+
+        //viewManager = LinearLayoutManager(this)
+        if(this.resources.configuration.orientation == 2
+            || this.resources.configuration.orientation == 4){
+            viewManager = LinearLayoutManager(this)
+        } else{
+            viewManager = GridLayoutManager(this, 2)
+        }
+
+        viewAdapter = MoneyAdapter(coins, { coinItem: Coins -> coinItemClicked(coinItem) })
+
+    }*/
 
     fun initMainFragment(){
         mainFragment = MainListFragment.newInstance(moneyList)
@@ -83,6 +111,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         changeFragment(R.id.land_main_cont_fragment, mainContentFragment)
     }
 
+    /*private fun coinItemClicked(item: Coins) {
+        val coinBundle = Bundle()
+        coinBundle.putParcelable("COIN", item)
+        startActivity(Intent(this, MoneyViewerActivity::class.java).putExtras(coinBundle))
+    }
+
+    private lateinit var viewAdapter: MoneyAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
+    fun initRecycler(coins : ArrayList<Coins>) {
+
+        //viewManager = LinearLayoutManager(this)
+        if(this.resources.configuration.orientation == 2
+            || this.resources.configuration.orientation == 4){
+            viewManager = LinearLayoutManager(this)
+        } else{
+            viewManager = GridLayoutManager(this, 2)
+        }
+
+        viewAdapter = MoneyAdapter(coins, { coinItem: Coins -> coinItemClicked(coinItem) })
+
+        recyclerview.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+
+    }*/
+
+    private var lista : ArrayList<Coins> = ArrayList<Coins>()
+
     private inner class FetchMovie : AsyncTask<String, Void, String>() {
 
         override fun doInBackground(vararg params: String): String {
@@ -92,10 +151,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val movieName = params[0]
             val movieUrl = NetworkUtils().buildtSearchUrl(movieName)
 
-            return try {
-                NetworkUtils().getResponseFromHttpUrl(movieUrl)
+            try {
+                var result = NetworkUtils().getResponseFromHttpUrl(movieUrl)
+                var gson : Gson = Gson()
+                var element : infoAllCoin = gson.fromJson(result, infoAllCoin::class.java)
+                for (i in 0 .. (element.datos.size-1)){
+                    var dato = Coins(element.datos.get(i).name.toString(),element.datos.get(i).country.toString(), element.datos.get(i).value,
+                        element.datos.get(i).value_us,
+                        element.datos.get(i).year, element.datos.get(i).review, element.datos.get(i).isAvailable, element.datos.get(i).img)
+                    lista.add(dato)
+                }
+                return result
             } catch (e: IOException) {
-                ""
+                e.printStackTrace()
+                return ""
             }
         }
 
@@ -140,27 +209,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    fun searchForCountry(country : String){
+        var listaS : ArrayList<Coins> = ArrayList<Coins>()
+        for (i in 0 .. (lista.size-1)){
+            if(lista.get(i).country.equals(country)){
+                listaS.add(lista.get(i))
+            }
+            //initRecycler(listaS)
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
             // TODO (14.3) Los Id solo los que estan escritos en el archivo de MENU
-            R.id.nav_camera -> {
-
+            R.id.nav_all -> {
+                //initRecycler(lista)
             }
-            R.id.nav_gallery -> {
-
+            R.id.nav_sv -> {
+                searchForCountry("El Salvador")
             }
-            R.id.nav_slideshow -> {
-
+            R.id.nav_mx -> {
+                searchForCountry("Mexico")
             }
-            R.id.nav_manage -> {
-
+            R.id.nav_usa -> {
+                searchForCountry("USA")
             }
-            R.id.nav_share -> {
-
+            R.id.nav_vn -> {
+                searchForCountry("Venezuela")
             }
-            R.id.nav_send -> {
-
+            R.id.nav_gt -> {
+                searchForCountry("Guatemala")
             }
         }
 

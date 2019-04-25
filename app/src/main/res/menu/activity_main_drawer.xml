@@ -5,25 +5,34 @@
       tools:showIn="navigation_view">
 
     <!-- TODO (3.4) Los grupos de menu pueden definirse  con la etiqueta group -->
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:id="@+id/id_menu_countries">
 
         <!-- TODO (3.5) Los mienbros del menu necesitan ID, TITLE-->
         <item
-                android:id="@+id/nav_camera"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="Import"/>
-        <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_all"
                 android:icon="@drawable/ic_menu_gallery"
-                android:title="Gallery"/>
+                android:checked="true"
+                android:title="All"/>
         <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="Slideshow"/>
+                android:id="@+id/nav_sv"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="El Salvador"/>
         <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Tools"/>
+                android:id="@+id/nav_usa"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="USA"/>
+        <item
+                android:id="@+id/nav_gt"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Guatemala"/>
+        <item
+                android:id="@+id/nav_mx"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Mexico"/>
+        <item
+                android:id="@+id/nav_vn"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Venezuela"/>
     </group>
 
     <!-- TODO (3.6) Se puede definir  seccion con Communicate -->

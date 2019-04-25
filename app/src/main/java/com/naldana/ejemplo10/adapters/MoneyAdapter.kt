@@ -11,6 +11,7 @@ import com.naldana.ejemplo10.models.Coins
 import kotlinx.android.synthetic.main.linear_layout_money.view.*
 
 class MoneyAdapter(var coins: List<Coins>, val clickListener: (Coins) -> Unit) :RecyclerView.Adapter<MoneyAdapter.ViewHolder>(), MyMoneyAdapter {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.linear_layout_money, parent, false)
         return ViewHolder(view)

@@ -10,7 +10,7 @@ data class Coins(
     val value_us: Double = 0.0,
     val year: Int = 0,
     val review: String = "N/A",
-    val isAvailable: String = "N/A",
+    val isAvailable: Boolean=false,
     val img: String = "N/A"
 ):Parcelable{
     constructor(parcel: Parcel) : this(
@@ -20,7 +20,7 @@ data class Coins(
         value_us = parcel.readDouble(),
         year= parcel.readInt(),
         review = parcel.readString(),
-        isAvailable = parcel.readString(),
+        isAvailable =  parcel.readByte() != 0.toByte(),
         img = parcel.readString()
     )
 
@@ -31,7 +31,7 @@ data class Coins(
         parcel.writeDouble(value_us)
         parcel.writeInt(year)
         parcel.writeString(review)
-        parcel.writeString(isAvailable)
+        parcel.writeByte(if (isAvailable) 1 else 0)
         parcel.writeString(img)
     }
 
@@ -40,6 +40,6 @@ data class Coins(
 
     companion object CREATOR : Parcelable.Creator<Coins> {
         override fun createFromParcel(parcel: Parcel): Coins = Coins(parcel)
-        override fun newArray(size: Int): Array<Coins?> = kotlin.arrayOfNulls(size)
+        override fun newArray(size: Int): Array<Coins?> = arrayOfNulls(size)
     }
 }
